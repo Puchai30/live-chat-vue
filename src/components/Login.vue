@@ -9,6 +9,8 @@
 
 <script>
 import { ref } from "vue";
+// import { auth } from "@/firebase/config";
+
 export default {
   setup() {
     let email = ref("");

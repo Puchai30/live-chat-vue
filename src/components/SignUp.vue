@@ -9,17 +9,32 @@
 </template>
 
 <script>
+import { auth } from "../firebase/config";
 import { ref } from "vue";
+
 export default {
   setup() {
     let displayName = ref("");
     let email = ref("");
     let password = ref("");
+    let error = ref(null);
 
-    let signUp = () => {
-      console.log(displayName.value, email.value, password.value);
+    let signUp = async () => {
+      try {
+        let res = await auth.createUserWithEmailAndPassword(
+          email.value,
+          password.value
+        );
+        if (!res) {
+          throw new Error("Could not create user");
+        }
+        console.log(res);
+      } catch (err) {
+        error.value = err.message;
+        console.log(error.value);
+      }
     };
-    return { displayName, email, password, signUp };
+    return { displayName, email, password, signUp, error };
   },
 };
 </script>

@@ -1,5 +1,6 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
+import firebase from "firebase/compat/app";
+import "firebase/compat/firestore";
+import "firebase/compat/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCOVB1ZC10xOGhuq9jps2Z36yNm9p-JW38",
@@ -10,9 +11,10 @@ const firebaseConfig = {
   appId: "1:212094376112:web:110f249bac951b761c8375",
 };
 
-firebase.initializeApp(firebaseConfig);
+const firebaseApp = firebase.initializeApp(firebaseConfig);
 
-let db = firebase.firestore();
-let timestap = firebase.firestore.FieldValue.serverTimestamp;
+const db = firebase.firestore();
+const auth = firebase.auth();
+const timestap = firebase.firestore.FieldValue.serverTimestamp;
 
-export { db, timestap };
+export { db, timestap, auth, firebaseApp };
