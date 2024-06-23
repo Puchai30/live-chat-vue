@@ -28,10 +28,11 @@ export default {
         if (!res) {
           throw new Error("Could not create user");
         }
-        console.log(res);
+        res.user.updateProfile({ displayName: displayName.value });
+        console.log(res.user);
       } catch (err) {
         error.value = err.message;
-        console.log(error.value);
+        // console.log(error.value);
       }
     };
     return { displayName, email, password, signUp, error };
