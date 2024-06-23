@@ -11,17 +11,19 @@
 <script>
 import useLogin from "@/composables/useLogin";
 import { ref } from "vue";
-// import { auth } from "@/firebase/config";
 
 export default {
-  setup() {
+  setup(props, context) {
     let email = ref("");
     let password = ref("");
     let { error, signIn } = useLogin();
 
     let login = async () => {
       let res = await signIn(email.value, password.value);
-      console.log(res);
+      if (res) {
+        context.emit("enterChatRoom");
+        // console.log(res.user);
+      }
     };
 
     return { email, password, login, error };
