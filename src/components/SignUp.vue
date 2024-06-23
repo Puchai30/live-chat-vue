@@ -4,6 +4,7 @@
     <input type="text" placeholder="display name" v-model="displayName" />
     <input type="email" placeholder="email" v-model="email" />
     <input type="password" placeholder="password" v-model="password" />
+    <div v-if="error" class="error">{{ error }}</div>
     <button>Sign Up</button>
   </form>
 </template>
@@ -25,7 +26,7 @@ export default {
         password.value,
         displayName.value
       );
-      console.log(res.user);
+      // console.log(res.user);
     };
     return { displayName, email, password, signUp, error };
   },
