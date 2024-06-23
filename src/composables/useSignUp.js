@@ -1,5 +1,5 @@
+import { auth } from "@/firebase/config";
 import { ref } from "vue";
-import { auth } from "../firebase/config";
 
 let error = ref(null);
 

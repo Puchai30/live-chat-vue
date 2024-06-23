@@ -3,11 +3,13 @@
   <form @submit.prevent="login">
     <input type="email" placeholder="email" v-model="email" />
     <input type="password" placeholder="password" v-model="password" />
+    <div v-if="error" class="error">{{ error }}</div>
     <button>Login</button>
   </form>
 </template>
 
 <script>
+import useLogin from "@/composables/useLogin";
 import { ref } from "vue";
 // import { auth } from "@/firebase/config";
 
@@ -15,11 +17,14 @@ export default {
   setup() {
     let email = ref("");
     let password = ref("");
+    let { error, signIn } = useLogin();
 
-    let login = () => {
-      console.log(email.value, password.value);
+    let login = async () => {
+      let res = await signIn(email.value, password.value);
+      console.log(res);
     };
-    return { email, password, login };
+
+    return { email, password, login, error };
   },
 };
 </script>
