@@ -1,9 +1,31 @@
 <template>
-  <h1>ChatRoom</h1>
+  <div class="container">
+    <Nabar></Nabar>
+  </div>
 </template>
 
 <script>
-export default {};
+import Nabar from "../components/Nabar";
+export default {
+  components: { Nabar },
+};
 </script>
 
-<style></style>
+<style>
+nav {
+  padding: 20px;
+  border-bottom: 1px solid #eee;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+nav p {
+  margin: 2px auto;
+  font-size: 16px;
+  color: #444;
+}
+nav p.email {
+  font-size: 14px;
+  color: #999;
+}
+</style>
