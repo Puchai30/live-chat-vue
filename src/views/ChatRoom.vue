@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <Nabar></Nabar>
+    <ChatWindow></ChatWindow>
     <NewChatForm></NewChatForm>
   </div>
 </template>
 
 <script>
+import ChatWindow from "../components/ChatWindow";
 import NewChatForm from "../components/NewChatForm";
 import { watch } from "vue";
 import Nabar from "../components/Nabar";
@@ -14,6 +16,7 @@ import { useRouter } from "vue-router";
 
 export default {
   components: {
+    ChatWindow,
     NewChatForm,
     Nabar,
   },
