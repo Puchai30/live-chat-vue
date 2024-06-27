@@ -2,7 +2,8 @@ import { auth } from "@/firebase/config";
 
 let signout = async () => {
   try {
-    await auth.signOut();
+    let res = await auth.signOut();
+
     console.log("logout");
   } catch (err) {
     error.value = err.message;
