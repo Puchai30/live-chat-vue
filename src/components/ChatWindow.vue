@@ -3,10 +3,10 @@
     <div class="messages">
       <div
         class="single"
-        v-for="messageData in messageDatas"
+        v-for="messageData in formatMsgData"
         :key="messageData.id"
       >
-        <span class="created-at">{{ messageData.created_at.toDate() }}</span>
+        <span class="created-at">{{ messageData.created_at }}</span>
         <span class="name">{{ messageData.name }}</span>
         <span class="message">{{ messageData.message }}</span>
       </div>
@@ -16,11 +16,20 @@
 
 <script>
 import { db } from "@/firebase/config";
-import { ref } from "vue";
+import { computed, ref } from "vue";
+import { formatDistanceToNow } from "date-fns";
 
 export default {
   setup() {
     let messageDatas = ref([]);
+
+    let formatMsgData = computed(() => {
+      return messageDatas.value.map((msgdata) => {
+        let formatTime = formatDistanceToNow(msgdata.created_at.toDate());
+        return { ...msgdata, created_at: formatTime };
+      });
+    });
+
     db.collection("messages")
       .orderBy("created_at")
       .onSnapshot((snap) => {
@@ -33,9 +42,9 @@ export default {
           doc.data().created_at && result.push(document);
         });
         messageDatas.value = result;
-        console.log(messageDatas.value);
+        // console.log(messageDatas.value);
       });
-    return { messageDatas };
+    return { messageDatas, formatMsgData };
   },
 };
 </script>
