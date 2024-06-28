@@ -6,7 +6,7 @@
         v-for="messageData in messageDatas"
         :key="messageData.id"
       >
-        <span class="created-at">{{ messageData.created_at }}</span>
+        <span class="created-at">{{ messageData.created_at.toDate() }}</span>
         <span class="name">{{ messageData.name }}</span>
         <span class="message">{{ messageData.message }}</span>
       </div>
@@ -20,7 +20,7 @@ import { ref } from "vue";
 
 export default {
   setup() {
-    let messageDatas = ref("");
+    let messageDatas = ref([]);
     db.collection("messages")
       .orderBy("created_at")
       .onSnapshot((snap) => {
@@ -30,10 +30,10 @@ export default {
           // console.log(doc.data());
           let document = { ...doc.data(), id: doc.id };
           // console.log(document);
-          result.push(document);
-          messageDatas.value = result;
+          doc.data().created_at && result.push(document);
         });
-        // console.log(messageData.value);
+        messageDatas.value = result;
+        console.log(messageDatas.value);
       });
     return { messageDatas };
   },
