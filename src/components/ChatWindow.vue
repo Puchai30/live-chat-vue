@@ -1,6 +1,6 @@
 <template>
   <div class="chat-window">
-    <div class="messages">
+    <div class="messages" ref="msgBox">
       <div
         class="single"
         v-for="messageData in formatMsgData"
@@ -16,12 +16,13 @@
 
 <script>
 import { db } from "@/firebase/config";
-import { computed, ref } from "vue";
+import { computed, onUpdated, ref } from "vue";
 import { formatDistanceToNow } from "date-fns";
 
 export default {
   setup() {
     let messageDatas = ref([]);
+    let msgBox = ref(null);
 
     let formatMsgData = computed(() => {
       return messageDatas.value.map((msgdata) => {
@@ -30,21 +31,25 @@ export default {
       });
     });
 
-    db.collection("messages")
-      .orderBy("created_at")
-      .onSnapshot((snap) => {
-        let result = [];
-        // console.log(snap.docs);
-        snap.docs.forEach((doc) => {
-          // console.log(doc.data());
-          let document = { ...doc.data(), id: doc.id };
-          // console.log(document);
-          doc.data().created_at && result.push(document);
+    onUpdated(() => {
+      msgBox.value.scrollTop = msgBox.value.scrollHeight;
+    }),
+      db
+        .collection("messages")
+        .orderBy("created_at")
+        .onSnapshot((snap) => {
+          let result = [];
+          // console.log(snap.docs);
+          snap.docs.forEach((doc) => {
+            // console.log(doc.data());
+            let document = { ...doc.data(), id: doc.id };
+            // console.log(document);
+            doc.data().created_at && result.push(document);
+          });
+          messageDatas.value = result;
+          // console.log(messageDatas.value);
         });
-        messageDatas.value = result;
-        // console.log(messageDatas.value);
-      });
-    return { messageDatas, formatMsgData };
+    return { messageDatas, formatMsgData, msgBox };
   },
 };
 </script>
